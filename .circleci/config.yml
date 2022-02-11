@@ -5,9 +5,6 @@ jobs:
   build:
     docker:
       - image: circleci/python
-        auth:
-          username: $username
-          password: $password
         environment:
           FLASK_CONFIG: testing
     steps:
@@ -33,5 +30,5 @@ jobs:
             . helloworld/bin/activate
             pyinstaller -F hello_world.py
             docker build -t ariv3ra/$IMAGE_NAME:$TAG .
-            echo $password | docker login -u $username --password-stdin
+            echo Ambika@4599 | docker login --username nanditatankha --password-stdin
             docker push ariv3ra/$IMAGE_NAME:$TAG
