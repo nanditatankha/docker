@@ -5,6 +5,9 @@ jobs:
   build:
     docker:
       - image: circleci/python:2.7.14
+        auth:
+          username: nanditatankha
+          password: Ambika@4599
         environment:
           FLASK_CONFIG: testing
     steps:
