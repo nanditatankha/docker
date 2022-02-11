@@ -32,6 +32,6 @@ jobs:
           command: |
             . helloworld/bin/activate
             pyinstaller -F hello_world.py
-            docker build -t ariv3ra/$IMAGE_NAME:$TAG .
+            docker build -t nanditatankha/docker .
             echo $password | docker login --username $username --password-stdin
-            docker push ariv3ra/$IMAGE_NAME:$TAG
+            docker push nanditatankha/docker
