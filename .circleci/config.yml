@@ -19,12 +19,12 @@ jobs:
             echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV 
             virtualenv helloworld
             . helloworld/bin/activate
-            pip3 install --no-cache-dir -r requirements.txt
+            pip install --no-cache-dir -r requirements.txt
       - run:
           name: Run Tests
           command: |
             . helloworld/bin/activate
-            python3 test_hello_world.py
+            python test_hello_world.py
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
