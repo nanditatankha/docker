@@ -18,7 +18,7 @@ jobs:
             echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
             echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV 
             virtualenv helloworld
-            rm .venv/share/python-wheels/pep517-0.7.0-py2.py3-none-any.whl
+            rm .helloworld/share/python-wheels/pep517-0.7.0-py2.py3-none-any.whl
             . helloworld/bin/activate
             pip install --no-cache-dir -r requirements.txt
       - run:
