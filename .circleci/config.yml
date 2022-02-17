@@ -34,13 +34,14 @@ jobs:
 #             docker build -t nanditatankha/docker .
 #             echo $password | docker login --username $username --password-stdin
 #             docker push nanditatankha/docker
-  setup:
-    machine:
-      enabled: true
-      image: "ubuntu-1604:201903-01"
-    steps:
-      - run:
-          name: Installing minikube
-          command: |
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.22
-            gruntwork-install --module-name "kubernetes-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "0.13.12"
+  build:
+    setup:
+      machine:
+        enabled: true
+        image: "ubuntu-1604:201903-01"
+      steps:
+        - run:
+            name: Installing minikube
+            command: |
+              curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.22
+              gruntwork-install --module-name "kubernetes-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "0.13.12"
