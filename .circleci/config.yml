@@ -50,7 +50,9 @@ jobs:
       - run:
           name: deploy
           command:
-           kubectl expose deployment hello-minikube --type=NodePort --port=8080
+            minkube kubectl -- create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+            minikube kubectl -- expose deployment hello-minikube --type=NodePort --port=8080
+
       # - run:
       #     name: deployment check for all the resources
       #     command: |
