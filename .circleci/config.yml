@@ -48,11 +48,8 @@ jobs:
           name: setting up minikube
           command: minikube start
       - run:
-          name: setting up minikube and deploying
-          command: | 
-            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-            kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
-            kubectl expose deployment hello-minikube --type=NodePort --port=8080
+          name: deploy
+            minikube kubectl expose deployment hello-minikube --type=NodePort --port=8080
       # - run:
       #     name: deployment check for all the resources
       #     command: |
