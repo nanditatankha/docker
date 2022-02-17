@@ -10,6 +10,10 @@ jobs:
           password: $password
         environment:
           FLASK_CONFIG: testing
+  setup:
+    machine:
+      enabled: true
+      image: "ubuntu-1604:201903-01"
     steps:
       - checkout
       - run:
@@ -35,13 +39,6 @@ jobs:
             docker build -t nanditatankha/docker .
             echo $password | docker login --username $username --password-stdin
             docker push nanditatankha/docker
-  setup:
-    # Note: Since minikube uses Docker, we need to run on the machine executor to avoid complications with
-    # Docker-in-Docker. Also, minikube requires systemd which is only introduced starting 16.04
-    machine:
-      enabled: true
-      image: "ubuntu-1604:201903-01"
-    steps:
       - run:
           name: Installing minikube
           command: |
