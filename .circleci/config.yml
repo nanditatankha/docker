@@ -35,18 +35,18 @@ jobs:
             docker build -t nanditatankha/docker .
             echo $password | docker login --username $username --password-stdin
             docker push nanditatankha/docker
-job:
   setup:
     # Note: Since minikube uses Docker, we need to run on the machine executor to avoid complications with
     # Docker-in-Docker. Also, minikube requires systemd which is only introduced starting 16.04
     machine:
       enabled: true
       image: "ubuntu-1604:201903-01"
-  steps:
-    - run:
-      command: |
-        # Install the Gruntwork Installer
-        curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.22
+    steps:
+      - run:
+        name: Installing minikube
+        command: |
+          # Install the Gruntwork Installer
+          curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.22
 
-        # Use the Gruntwork Installer to install the kubernetes-circleci-helpers module
-        gruntwork-install --module-name "kubernetes-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "0.13.12"
+          # Use the Gruntwork Installer to install the kubernetes-circleci-helpers module
+          gruntwork-install --module-name "kubernetes-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "0.13.12"
