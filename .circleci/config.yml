@@ -48,7 +48,7 @@ jobs:
           name: setting up minikube
           command: minikube start
       - run: 
-          name: deployment
+          name: deployment check
           command: |
             kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
             kubectl expose deployment hello-minikube --type=NodePort --port=8080
