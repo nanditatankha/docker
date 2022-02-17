@@ -47,6 +47,5 @@ jobs:
         command: |
           # Install the Gruntwork Installer
           curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.22
-
           # Use the Gruntwork Installer to install the kubernetes-circleci-helpers module
           gruntwork-install --module-name "kubernetes-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "0.13.12"
