@@ -2,43 +2,43 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/python
-        auth:
-          username: $username
-          password: $password
-        environment:
-          FLASK_CONFIG: testing
+#   build:
+#     docker:
+#       - image: circleci/python
+#         auth:
+#           username: $username
+#           password: $password
+#         environment:
+#           FLASK_CONFIG: testing
+#     steps:
+#       - run:
+#           name: Setup VirtualEnv
+#           command: |
+#             echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
+#             echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV 
+#             virtualenv helloworld
+#             . helloworld/bin/activate
+#             pip install --no-cache-dir -r requirements.txt
+#       - run:
+#           name: Run Tests
+#           command: |
+#             . helloworld/bin/activate
+#             python test_hello_world.py
+#       - setup_remote_docker:
+#           docker_layer_caching: true
+#       - run:
+#           name: Build and push Docker image
+#           command: |
+#             . helloworld/bin/activate
+#             pyinstaller -F hello_world.py
+#             docker build -t nanditatankha/docker .
+#             echo $password | docker login --username $username --password-stdin
+#             docker push nanditatankha/docker
   setup:
     machine:
       enabled: true
       image: "ubuntu-1604:201903-01"
     steps:
-      - checkout
-      - run:
-          name: Setup VirtualEnv
-          command: |
-            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
-            echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV 
-            virtualenv helloworld
-            . helloworld/bin/activate
-            pip install --no-cache-dir -r requirements.txt
-      - run:
-          name: Run Tests
-          command: |
-            . helloworld/bin/activate
-            python test_hello_world.py
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Build and push Docker image
-          command: |
-            . helloworld/bin/activate
-            pyinstaller -F hello_world.py
-            docker build -t nanditatankha/docker .
-            echo $password | docker login --username $username --password-stdin
-            docker push nanditatankha/docker
       - run:
           name: Installing minikube
           command: |
