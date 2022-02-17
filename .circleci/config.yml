@@ -51,6 +51,6 @@ jobs:
           name: deploy
           command: |
             alias kubectl="minikube kubectl --"
-            kubectl get pods --namespace kube-system
-            kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
-            kubectl expose deployment hello-minikube --type=NodePort --port=8080
+            kubectl -- get pods --namespace kube-system
+            kubectl -- create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+            kubectl -- expose deployment hello-minikube --type=NodePort --port=8080
