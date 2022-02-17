@@ -50,7 +50,7 @@ jobs:
       - run:
           name: deploy
           command:
-            kubectl version
+            minkube kubectl -- get pods -- namespace kube-system
 
       # - run:
       #     name: deployment check for all the resources
