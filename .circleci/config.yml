@@ -41,9 +41,17 @@ jobs:
     steps:
       - run:
           name: Installing minikube
-          command:
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.22
-            # gruntwork-install --module-name "kubernetes-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "0.13.12"
+          command: |
+            curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+            sudo install minikube-linux-amd64 /usr/local/bin/minikube
       - run:
           name: setting up minikube
-          command: setup-minikube
+          command: minikube start
+      - run: 
+          name: deploying
+          command: |
+            kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+            kubectl expose deployment hello-minikube --type=NodePort --port=8080
+
+
+      
