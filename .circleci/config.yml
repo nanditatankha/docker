@@ -33,7 +33,7 @@ jobs:
              echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV 
              virtualenv helloworld
              . helloworld/bin/activate
-             pip install --no-cache-dir -r flask pyinstaller
+             pip install --no-cache-dir flask pyinstaller
       - run:
           name: Run Tests
           command: |
