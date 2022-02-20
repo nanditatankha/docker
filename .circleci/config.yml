@@ -39,6 +39,7 @@ jobs:
           command: |
              git clone https://github.com/nanditatankha/docker.git
              cd docker
+             ls -lrt
       - run:
           name: Run Tests
           command: |
