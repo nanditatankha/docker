@@ -65,7 +65,7 @@ jobs:
           command: minikube start
       - run:
           name: deploy
-          command:
+          command: |
             alias kubectl="minikube kubectl --"
             kubectl get pods --namespace kube-system
             kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
