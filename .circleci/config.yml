@@ -33,7 +33,7 @@ jobs:
              echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV 
              virtualenv helloworld
              . helloworld/bin/activate
-             pip install --no-cache-dir -r ./requirements.txt
+             pip install --no-cache-dir -r flask pyinstaller
       - run:
           name: Run Tests
           command: |
@@ -65,6 +65,7 @@ jobs:
       - run:
           name: deploy
           command:
-            kubectl -- get pods --namespace kube-system
-             kubectl -- create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
-             kubectl -- expose deployment hello-minikube --type=NodePort --port=8080
+            ln -s $(which minikube) /usr/local/bin/kubectl
+            kubectl get pods --namespace kube-system
+            kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+            kubectl expose deployment hello-minikube --type=NodePort --port=8080
