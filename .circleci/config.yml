@@ -35,6 +35,11 @@ jobs:
              . helloworld/bin/activate
              pip install --no-cache-dir flask pyinstaller
       - run:
+          name: Git download
+          command: |
+             git clone https://github.com/nanditatankha/docker.git
+             cd docker
+      - run:
           name: Run Tests
           command: |
              . helloworld/bin/activate
@@ -65,7 +70,7 @@ jobs:
       - run:
           name: deploy
           command:
-            ln -s $(which minikube) /usr/local/bin/kubectl
+            alias kubectl="minikube kubectl --"
             kubectl get pods --namespace kube-system
             kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
             kubectl expose deployment hello-minikube --type=NodePort --port=8080
