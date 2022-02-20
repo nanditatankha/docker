@@ -8,7 +8,7 @@ workflows:
           filters:
             tags:
               only: /.*/
-  deploy_minikube:
+  deploy_application:
     jobs:
       - deploy:
           filters:
@@ -64,9 +64,24 @@ jobs:
           name: setting up minikube
           command: minikube start
       - run:
-          name: deploy
+          name: test-minikube
           command: |
-            alias kubectl="minikube kubectl --"
-            kubectl get pods --namespace kube-system
-            kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
-            kubectl expose deployment hello-minikube --type=NodePort --port=8080
+            minikube kubectl -- get pods
+      #- run:
+      #    name: Install Helm
+      #    command: |
+      #      curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+      #      sudo apt-get install apt-transport-https --yes
+      #      echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+      #      sudo apt-get update
+      #      sudo apt-get install helm
+      #- checkout
+      #- run:
+      #    name: Deploying Helm chart
+      #    command: |
+      #      cd helloworld-py
+      #      helm install -f values.yaml helloworld-py ./
+      #- run:
+      #    name: Test-deployment
+      #    command: |
+      #      minikube kubectl -- get pods
