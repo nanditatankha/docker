@@ -80,7 +80,7 @@ jobs:
          name: Deploying Helm chart
          command: |
            cd helloworld-py
-           helm install -f values.yaml helloworld-py ./
+           helm install -f values.yaml ./helloworld-py ./
       - run:
          name: Test-deployment
          command: |
