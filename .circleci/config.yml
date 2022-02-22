@@ -75,7 +75,7 @@ jobs:
            echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
            sudo apt-get update
            sudo apt-get install helm
-      - checkout
+      #- checkout
       - run:
          name: Deploying Helm chart
          command: |
