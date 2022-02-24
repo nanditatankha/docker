@@ -1,42 +1,58 @@
 #  Use the latest 2.1 version of CircleCI pipeline process engine.
 #  See: https://circleci.com/docs/2.0/configuration-reference
-version: 2
+version: 2.1
+workflows:
+  build_image:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+  deploy_application:
+    jobs:
+      - deploy:
+          filters:
+            tags:
+              only: /.*/
+
+    
 jobs:
-   build:
-     docker:
-       - image: circleci/python
-         auth:
-           username: $username
-           password: $password
-         environment:
-           FLASK_CONFIG: testing
-     steps:
-       - run:
-           name: Setup VirtualEnv
-           command: |
+  build:
+    docker:
+      - image: circleci/python
+        auth:
+          username: $username
+          password: $password
+        environment:
+          FLASK_CONFIG: testing
+    steps:
+      - checkout
+      - run:
+          name: Setup VirtualEnv
+          command: |
              echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
              echo 'export IMAGE_NAME=python-circleci-docker' >> $BASH_ENV 
              virtualenv helloworld
              . helloworld/bin/activate
              pip install --no-cache-dir -r requirements.txt
-       - run:
-           name: Run Tests
-           command: |
+      - run:
+          name: Run Tests
+          command: |
              . helloworld/bin/activate
              python test_hello_world.py
-       - setup_remote_docker:
-           docker_layer_caching: true
-       - run:
-           name: Build and push Docker image
-           command: |
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image
+          command: |
              . helloworld/bin/activate
              pyinstaller -F hello_world.py
              docker build -t nanditatankha/docker .
              echo $password | docker login --username $username --password-stdin
              docker push nanditatankha/docker
-  build2:
+  deploy:
     machine:
-      enabled: true
+      # enabled: true
       image: "ubuntu-1604:201903-01"
     steps:
       - run:
@@ -48,8 +64,26 @@ jobs:
           name: setting up minikube
           command: minikube start
       - run:
-          name: deploy
-          command:
-            kubectl -- get pods --namespace kube-system
-             kubectl -- create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
-             kubectl -- expose deployment hello-minikube --type=NodePort --port=8080
+          name: test-minikube
+          command: |
+            minikube kubectl -- get pods
+      - run:
+         name: Install Helm
+         command: |
+           curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+           sudo apt-get install apt-transport-https --yes
+           echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+           sudo apt-get update
+           sudo apt-get install helm
+      #- checkout
+      - run:
+         name: Deploying Helm chart
+         command: |
+           helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+           helm repo update
+           helm install prem-nginx ingress-nginx/ingress-nginx
+      - run:
+         name: Test-deployment
+         command: |
+           sleep 60;
+           minikube kubectl -- get pods
